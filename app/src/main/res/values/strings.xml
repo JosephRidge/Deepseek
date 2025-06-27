@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">deepseek</string>
+    <string name="add_icon">Icon to add new task</string>
+    <string name="is_done">Task is complete</string>
+    <string name="is_not_done">Task is not yet done </string>
+    <string name="delete_task">Delete task button</string>
+    <string name="racer_seated_icon">Icon of a sportsperson at rest on a chair</string>
+</resources>
