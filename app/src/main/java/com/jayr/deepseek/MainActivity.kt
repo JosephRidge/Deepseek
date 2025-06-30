@@ -1,5 +1,6 @@
 package com.jayr.deepseek
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,25 +19,42 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -51,18 +69,82 @@ class MainActivity : ComponentActivity() {
         setContent {
             DeepseekTheme {
                 Scaffold(
-
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
+                        .fillMaxSize().background(Color.DarkGray)
                 ) { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        TodosPage()
+                    Column() {
+                        Places()
+//                        TodosPage()
+//
+//                        PrimaryButton("This is a button click!")
+//                        TextinputSection("enter your name","Name")
                     }
                 }
             }
         }
     }
+}
+@Composable
+fun Places(){
+    Box{
+        Image(
+            painter = painterResource(R.drawable.hotair),
+            contentDescription = "Travels Beyond",
+            contentScale = ContentScale.FillWidth,
+        )
+        Text(
+            text = "Deep dive into the world of travels",
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            fontSize = 32.sp,
+            letterSpacing = 3.sp,
+            lineHeight = 32.sp,
+            modifier = Modifier.fillMaxWidth().align(alignment = Alignment.BottomCenter).padding(8.dp)
+
+        )
+    }
+    Column (verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())){
+        OptionPlace(R.drawable.jeep,"Image of Jeep","Jeep","Jeep at the mountain sides")
+        OptionPlace(R.drawable.dive,"Image of Sky Divers","Sky Diving","Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!")
+        OptionPlace(R.drawable.jeep,"Image of Jeep","Jeep","Jeep at the mountain sides")
+        OptionPlace(R.drawable.dive,"Image of Sky Divers","Sky Diving","Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!")
+        OptionPlace(R.drawable.jeep,"Image of Jeep","Jeep","Jeep at the mountain sides")
+        OptionPlace(R.drawable.dive,"Image of Sky Divers","Sky Diving","Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!")
+
+    }
+   }
+@Composable
+fun OptionPlace(drawable: Int,description:String,title:String, nameOfPlace:String,   modifier: Modifier=Modifier){
+    Card(modifier=modifier.padding(10.dp).background(Color.White),
+        colors = CardColors(containerColor = Color.White, contentColor = Color.DarkGray, disabledContentColor = Color.Gray, disabledContainerColor = Color.Gray),
+        border = BorderStroke(width = 2.dp, brush = Brush.linearGradient(
+            listOf(Color.Red, Color.Blue)
+        ))
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(8.dp).background(Color.White)
+        ) {
+            ImageOfCard(drawable,description)
+            Column (modifier.padding(horizontal = 8.dp)){
+                Text(text=title, color = Color.DarkGray, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(text=nameOfPlace, color = Color.Gray,fontSize = 12.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
+        }
+    }
+}
+
+@Composable
+fun ImageOfCard(drawable: Int,description:String,  modifier: Modifier=Modifier){
+    Image(
+        painter = painterResource(drawable),
+        contentDescription = description,
+        contentScale = ContentScale.FillBounds,
+        modifier = modifier.size(64.dp).clip(RoundedCornerShape(32.dp))
+    )
 }
 
 @Composable
@@ -75,10 +157,10 @@ fun SnackBarItem(text: String, modifier: Modifier) {
 @Composable
 fun TodosPage(modifier: Modifier = Modifier) {
     val todoItems: List<TodoItem> = getDummyTasks()
-
-    Column(
+     Column(
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
+         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         Text(
             text = "Your To Do",
@@ -89,6 +171,8 @@ fun TodosPage(modifier: Modifier = Modifier) {
         )
 
         InputSection()
+
+
         LazyColumn(
             userScrollEnabled = true,
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -165,22 +249,23 @@ fun TodosPage(modifier: Modifier = Modifier) {
                 }
             }
         }
+
     }
 }
 
 @Composable
 fun InputSection(modifier: Modifier = Modifier) {
-    var inputValue: String = remember {
-        "..."
+    var inputValue: MutableState<String> = remember {
+        mutableStateOf("...")
     }
+
+    var input:MutableState<String> = remember { mutableStateOf("") }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier.fillMaxWidth()
     ) {
-        TextField(
-            value = inputValue,
-            onValueChange = { value -> inputValue = value }
-        )
+        TextinputSection("task title","title")
+
         IconButton(
             onClick = {},
             modifier
@@ -198,54 +283,6 @@ fun InputSection(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TopBar(points: Float, modifier: Modifier = Modifier) {
-    Text(
-        text = "$points",
-        fontSize = 32.sp,
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        fontWeight = FontWeight.ExtraBold,
-        color = Color.DarkGray
-    )
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "$name!",
-        fontSize = 32.sp,
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .border(BorderStroke(2.dp, Color.Red))
-            .clickable { },
-        fontWeight = FontWeight.ExtraBold,
-        color = Color.DarkGray
-    )
-}
-
-@Composable
-fun RestingSeat(color: Color, modifier: Modifier = Modifier) {
-    Image(
-        painter = painterResource(R.drawable.baseline_accessible),
-        contentDescription = stringResource(R.string.racer_seated_icon),
-        colorFilter = ColorFilter.tint(color),
-        modifier = modifier
-    )
-}
-
-@Composable
-fun RacingSeat(color: Color, modifier: Modifier = Modifier) {
-    Image(
-        painter = painterResource(R.drawable.outline_accessible_forward),
-        contentDescription = stringResource(R.string.racer_seated_icon),
-        colorFilter = ColorFilter.tint(color),
-        modifier = modifier
-    )
-}
-
-@Composable
 fun getScreenWidth(): Dp {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -253,68 +290,47 @@ fun getScreenWidth(): Dp {
 }
 
 @Composable
-fun RowAthlete() {
-    val screenWidth: Dp = getScreenWidth()
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
-    )
-    {
-        RacingSeat(Color.DarkGray, modifier = Modifier.size(screenWidth * 1 / 6))
-        RestingSeat(Color.Green, modifier = Modifier.size(screenWidth * 1 / 6))
-        RacingSeat(Color.Red, modifier = Modifier.size(screenWidth * 1 / 6))
-        RestingSeat(Color.Blue, modifier = Modifier.size(screenWidth * 1 / 6))
+fun PrimaryButton(text: String, modifier: Modifier = Modifier) {
+    Button(
+        onClick = {}
+    ) {
+        Text(text = text)
     }
 }
 
 @Composable
-fun GameOver() {
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-    )
-    {
-        Column {
-            Column() {
-                RowAthlete()
-                RowAthlete()
-                RowAthlete()
-
-            }
-            Greeting(name = "GAME OVER", modifier = Modifier)
-
-        }
+fun TextinputSection(hint: String, label: String, modifier: Modifier = Modifier) {
+    var inputValue = remember { mutableStateOf("") }
+    val brush = remember {
+        Brush.linearGradient(
+            colors = listOf(Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta)
+        )
     }
-}
-
-@Composable
-fun ColumnAthlete() {
-    val screenWidth: Dp = getScreenWidth()
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
+    TextField(
+        value = inputValue.value,
+        onValueChange = {newValue -> inputValue.value = newValue},
+        label = { Text(text=label) },
+        textStyle = TextStyle(brush = brush),
+        modifier = Modifier.width(getScreenWidth()*2/3),
+        leadingIcon = {
+            Icon(
+            imageVector = Icons.Filled.AccountBox,
+                contentDescription = "Acoount "
+        ) }
     )
-    {
-        RacingSeat(Color.DarkGray, modifier = Modifier.size(screenWidth * 1 / 6))
-        RestingSeat(Color.Green, modifier = Modifier.size(screenWidth * 1 / 6))
-        RacingSeat(Color.Red, modifier = Modifier.size(screenWidth * 1 / 6))
-        RestingSeat(Color.Blue, modifier = Modifier.size(screenWidth * 1 / 6))
-    }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     DeepseekTheme {
-        Column {
-            Greeting("Deepseek")
-            RestingSeat(Color.Blue, modifier = Modifier.size(32.dp))
-            RacingSeat(Color.Blue, modifier = Modifier)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            TodosPage()
+            PrimaryButton("This is a button click!")
+            TextinputSection("enter your name","Name")
         }
     }
 }
