@@ -38,6 +38,7 @@ import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
@@ -67,6 +68,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.jayr.deepseek.data.City
 import com.jayr.deepseek.data.getDummyCities
 import com.jayr.deepseek.ui.theme.DeepseekTheme
@@ -78,6 +80,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             DeepseekTheme {
                 Scaffold(
+                    bottomBar = {
+                        val navController = rememberNavController()
+                        NavigationBar {
+
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Color.DarkGray)
@@ -148,7 +156,7 @@ fun CityCard(title: String, location:String, rating:Float, image:Int){
 
 @Composable
 fun ExplorerPage(){
-var cities:List<City> = getDummyCities()
+val cities:List<City> = getDummyCities()
     LazyRow {
         items(cities.size) { index ->
             CityCard(
