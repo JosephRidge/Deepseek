@@ -80,17 +80,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             DeepseekTheme {
                 Scaffold(
-                    bottomBar = {
-                        val navController = rememberNavController()
-                        NavigationBar {
 
-                        }
-                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Color.DarkGray)
                 ) { innerPadding ->
-                    Column( modifier = Modifier.padding(innerPadding)) {
+                    Column(modifier = Modifier.padding(innerPadding)) {
                         ExplorerPage()
                         ExplorerPage()
                         ExplorerPage()
@@ -100,63 +95,89 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@Composable
-fun CityCard(title: String, location:String, rating:Float, image:Int){
-        Card(
-            modifier = Modifier.size(200.dp).padding(12.dp)
-        ) {
-            Box(
-                 contentAlignment = Alignment.BottomCenter
-            ){
-                Image(
-                    painter = painterResource(image),
-                    contentDescription = "Image of $title",
-                    contentScale = ContentScale.FillBounds
-                )
-                Card(
-                    colors = CardColors(
-                        containerColor =Color.White.copy(alpha = 0.6f),
-                        contentColor = Color.DarkGray,
-                        disabledContainerColor = Color.Gray,
-                        disabledContentColor = Color.DarkGray
-                    ),
-                    modifier = Modifier.width(width = 250.dp).
-                height(IntrinsicSize.Min).padding(8.dp) ) {
-                    Text(text=title, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 12.sp, fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(horizontal = 4.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp)
 
+@Composable
+fun CityCard(title: String, location: String, rating: Float, image: Int) {
+    Card(
+        modifier = Modifier
+            .size(200.dp)
+            .padding(12.dp)
+    ) {
+        Box(
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            Image(
+                painter = painterResource(image),
+                contentDescription = "Image of $title",
+                contentScale = ContentScale.FillBounds
+            )
+            Card(
+                colors = CardColors(
+                    containerColor = Color.White.copy(alpha = 0.6f),
+                    contentColor = Color.DarkGray,
+                    disabledContainerColor = Color.Gray,
+                    disabledContentColor = Color.DarkGray
+                ),
+                modifier = Modifier
+                    .width(width = 250.dp)
+                    .height(IntrinsicSize.Min)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = title,
+                    color = Color.Black,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp)
+
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.LocationOn,
+                        contentDescription = "icon of location",
+                        tint = Color.DarkGray,
+                        modifier = Modifier.size(12.dp),
+                    )
+                    Text(
+                        text = location,
+                        color = Color.Black,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                    Row(
+                        Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.LocationOn,
-                            contentDescription = "icon of location",
-                            tint = Color.DarkGray,
-                            modifier =  Modifier.size(12.dp),
-                        )
-                        Text(text=location, color = Color.Black,  fontSize = 12.sp, fontWeight = FontWeight.Light)
-                        Row (Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically,
-                           ){
-                            Icon(
-                                imageVector = Icons.Filled.Star,
-                                contentDescription = "icon of star rating",
-                                tint = Color.Yellow,
-                               modifier =  Modifier.size(12.dp),
+                            imageVector = Icons.Filled.Star,
+                            contentDescription = "icon of star rating",
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(12.dp),
 
                             )
-                            Text(text="$rating", color = Color.Black,  fontSize = 12.sp, fontWeight = FontWeight.Light)
-                            Modifier.size(12.dp)
-                        }
+                        Text(
+                            text = "$rating",
+                            color = Color.Black,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                        Modifier.size(12.dp)
                     }
                 }
             }
         }
+    }
 }
 
 @Composable
-fun ExplorerPage(){
-val cities:List<City> = getDummyCities()
+fun ExplorerPage() {
+    val cities: List<City> = getDummyCities()
     LazyRow {
         items(cities.size) { index ->
             CityCard(
@@ -171,10 +192,9 @@ val cities:List<City> = getDummyCities()
 }
 
 
-
 @Composable
-fun Places(){
-    Box{
+fun Places() {
+    Box {
         Image(
             painter = painterResource(R.drawable.hotair),
             contentDescription = "Travels Beyond",
@@ -195,29 +215,60 @@ fun Places(){
 
         )
     }
-    Column (verticalArrangement = Arrangement.SpaceEvenly,
+    Column(
+        verticalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier
             .padding(10.dp)
-            .verticalScroll(rememberScrollState())){
-        OptionPlace(R.drawable.jeep,"Image of Jeep","Jeep","Jeep at the mountain sides")
-        OptionPlace(R.drawable.dive,"Image of Sky Divers","Sky Diving","Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!")
-        OptionPlace(R.drawable.jeep,"Image of Jeep","Jeep","Jeep at the mountain sides")
-        OptionPlace(R.drawable.dive,"Image of Sky Divers","Sky Diving","Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!")
-        OptionPlace(R.drawable.jeep,"Image of Jeep","Jeep","Jeep at the mountain sides")
-        OptionPlace(R.drawable.dive,"Image of Sky Divers","Sky Diving","Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!")
+            .verticalScroll(rememberScrollState())
+    ) {
+        OptionPlace(R.drawable.jeep, "Image of Jeep", "Jeep", "Jeep at the mountain sides")
+        OptionPlace(
+            R.drawable.dive,
+            "Image of Sky Divers",
+            "Sky Diving",
+            "Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!"
+        )
+        OptionPlace(R.drawable.jeep, "Image of Jeep", "Jeep", "Jeep at the mountain sides")
+        OptionPlace(
+            R.drawable.dive,
+            "Image of Sky Divers",
+            "Sky Diving",
+            "Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!"
+        )
+        OptionPlace(R.drawable.jeep, "Image of Jeep", "Jeep", "Jeep at the mountain sides")
+        OptionPlace(
+            R.drawable.dive,
+            "Image of Sky Divers",
+            "Sky Diving",
+            "Sky diving in the Bahamas Boooooooooooooooooooooooyaaaaaaaaaaaaaaaaaaaaaaa!!!"
+        )
 
     }
-   }
+}
 
 @Composable
-fun OptionPlace(drawable: Int,description:String,title:String, nameOfPlace:String,   modifier: Modifier=Modifier){
-    Card(modifier=modifier
-        .padding(10.dp)
-        .background(Color.White),
-        colors = CardColors(containerColor = Color.White, contentColor = Color.DarkGray, disabledContentColor = Color.Gray, disabledContainerColor = Color.Gray),
-        border = BorderStroke(width = 2.dp, brush = Brush.linearGradient(
-            listOf(Color.Red, Color.Blue)
-        ))
+fun OptionPlace(
+    drawable: Int,
+    description: String,
+    title: String,
+    nameOfPlace: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .padding(10.dp)
+            .background(Color.White),
+        colors = CardColors(
+            containerColor = Color.White,
+            contentColor = Color.DarkGray,
+            disabledContentColor = Color.Gray,
+            disabledContainerColor = Color.Gray
+        ),
+        border = BorderStroke(
+            width = 2.dp, brush = Brush.linearGradient(
+                listOf(Color.Red, Color.Blue)
+            )
+        )
     ) {
         Row(
             horizontalArrangement = Arrangement.Start,
@@ -227,17 +278,28 @@ fun OptionPlace(drawable: Int,description:String,title:String, nameOfPlace:Strin
                 .padding(8.dp)
                 .background(Color.White)
         ) {
-            ImageOfCard(drawable,description)
-            Column (modifier.padding(horizontal = 8.dp)){
-                Text(text=title, color = Color.DarkGray, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text(text=nameOfPlace, color = Color.Gray,fontSize = 12.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            ImageOfCard(drawable, description)
+            Column(modifier.padding(horizontal = 8.dp)) {
+                Text(
+                    text = title,
+                    color = Color.DarkGray,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+                Text(
+                    text = nameOfPlace,
+                    color = Color.Gray,
+                    fontSize = 12.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }
 }
 
 @Composable
-fun ImageOfCard(drawable: Int,description:String,  modifier: Modifier=Modifier){
+fun ImageOfCard(drawable: Int, description: String, modifier: Modifier = Modifier) {
     Image(
         painter = painterResource(drawable),
         contentDescription = description,
@@ -258,10 +320,10 @@ fun SnackBarItem(text: String, modifier: Modifier) {
 @Composable
 fun TodosPage(modifier: Modifier = Modifier) {
     val todoItems: List<TodoItem> = getDummyTasks()
-     Column(
+    Column(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.Start,
-         modifier = Modifier.verticalScroll(rememberScrollState())
+        modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         Text(
             text = "Your To Do",
@@ -360,12 +422,12 @@ fun InputSection(modifier: Modifier = Modifier) {
         mutableStateOf("...")
     }
 
-    var input:MutableState<String> = remember { mutableStateOf("") }
+    var input: MutableState<String> = remember { mutableStateOf("") }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier.fillMaxWidth()
     ) {
-        TextinputSection("task title","title")
+        TextinputSection("task title", "title")
 
         IconButton(
             onClick = {},
@@ -409,15 +471,16 @@ fun TextinputSection(hint: String, label: String, modifier: Modifier = Modifier)
     }
     TextField(
         value = inputValue.value,
-        onValueChange = {newValue -> inputValue.value = newValue},
-        label = { Text(text=label) },
+        onValueChange = { newValue -> inputValue.value = newValue },
+        label = { Text(text = label) },
         textStyle = TextStyle(brush = brush),
-        modifier = Modifier.width(getScreenWidth()*2/3),
+        modifier = Modifier.width(getScreenWidth() * 2 / 3),
         leadingIcon = {
             Icon(
-            imageVector = Icons.Filled.AccountBox,
+                imageVector = Icons.Filled.AccountBox,
                 contentDescription = "Acoount "
-        ) }
+            )
+        }
     )
 }
 
