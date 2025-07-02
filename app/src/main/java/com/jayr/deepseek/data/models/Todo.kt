@@ -1,4 +1,4 @@
-package com.jayr.deepseek
+package com.jayr.deepseek.data.models
 
 data class TodoItem(
     var title:String,
