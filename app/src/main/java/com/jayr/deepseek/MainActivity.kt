@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +34,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
@@ -55,6 +58,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
@@ -62,6 +66,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -69,6 +74,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -97,6 +104,7 @@ import com.jayr.deepseek.ui.components.Navigation
 import com.jayr.deepseek.ui.screens.HomePage
 import com.jayr.deepseek.ui.screens.Routes
 import com.jayr.deepseek.ui.theme.DeepseekTheme
+import com.jayr.deepseek.ui.theme.lightGray
 import com.jayr.deepseek.ui.theme.sportOrange
 import kotlinx.serialization.StringFormat
 
@@ -148,18 +156,28 @@ class MainActivity : ComponentActivity() {
                     )
                 )
                 var selectedItem by rememberSaveable {
-                    mutableStateOf(0)
+                    mutableIntStateOf(0)
                 }
-                var navController: NavHostController = rememberNavController()
+                val navController: NavHostController = rememberNavController()
                 Scaffold(
-
+                    contentWindowInsets = WindowInsets(0),
                     bottomBar =
                         {
                             NavigationBar(
-                                modifier = Modifier.background(Color.Gray)
+                                modifier = Modifier
+                                    .background(Color.White)
                             ){
                                 navigationItems.forEachIndexed { index, item ->
                                     NavigationBarItem(
+                                        colors = NavigationBarItemColors(
+                                            selectedIconColor = sportOrange,
+                                            selectedTextColor = sportOrange,
+                                            selectedIndicatorColor = Color.Transparent,
+                                            unselectedIconColor = Color.Gray,
+                                            unselectedTextColor = Color.Gray,
+                                            disabledIconColor = Color.Gray,
+                                            disabledTextColor = Color.Gray,
+                                        ),
                                         selected = selectedItem == index,
                                         onClick = {
                                             selectedItem = index
@@ -170,11 +188,21 @@ class MainActivity : ComponentActivity() {
                                         icon = {
                                             if(selectedItem == index){
                                                 item.iconSelected?.let {
-                                                    Icon(
-                                                        imageVector = it,
-                                                        contentDescription = "icon of ${item.title}",
-                                                        modifier = Modifier.size(24.dp)
-                                                    )
+                                                    Column {
+                                                        Icon(
+                                                            imageVector = it,
+                                                            contentDescription = "icon of ${item.title}",
+                                                            modifier = Modifier.size(24.dp),
+                                                            tint = sportOrange
+                                                        )
+                                                        Icon(
+                                                            imageVector = Icons.Filled.ArrowDropDown,
+                                                            contentDescription = "icon of ${item.title}",
+                                                            modifier = Modifier.size(24.dp).scale(scaleY = -1f, scaleX = 1f),
+                                                            tint = sportOrange
+                                                        )
+
+                                                    }
                                                 }
                                             }else{
                                                 item.iconNotSelected?.let {
@@ -192,12 +220,14 @@ class MainActivity : ComponentActivity() {
 
                             }
                         },
-//                    modifier = Modifier
-//                        .fillMaxSize()
                 ) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)){
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .background(lightGray)
+                        .consumeWindowInsets(innerPadding) ){
 
-                        Navigation(navController)
+                        Navigation(navController, innerPadding)
                     }
                 }
 
@@ -206,32 +236,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-// component => a reusable entity
-@Composable
-fun TextWithIcon(text: String, icon: ImageVector) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = "",
-            modifier = Modifier.size(12.dp),
-            tint = Color.White
-        )
-        Spacer(Modifier.padding(horizontal = 1.5.dp))
-        Text(text = text, fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Light)
-        Spacer(Modifier.padding(vertical = 2.dp))
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     DeepseekTheme {
-            var navigationItems = listOf(
+            val navigationItems = listOf(
                 BottomNavBarItem(
                     title = Routes.Landing.name,
                     iconSelected =  Icons.Filled.Home,
@@ -259,11 +268,10 @@ fun GreetingPreview() {
                 )
             )
             var selectedItem by rememberSaveable {
-                mutableStateOf(0)
+                mutableIntStateOf(0)
             }
-            val navController:NavHostController =   rememberNavController()
+            val navController:NavHostController = rememberNavController()
             Scaffold(
-
                 bottomBar =
                     {
                         NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
@@ -274,7 +282,6 @@ fun GreetingPreview() {
                                         selectedItem = index
                                         navController.navigate(route=item.title)
                                     },
-
                                             icon = {
                                         if(selectedItem == index){
                                             item.iconSelected?.let {
@@ -297,15 +304,12 @@ fun GreetingPreview() {
                                     label = { item.title},
                                 )
                             }
-
                         }
                     },
                 modifier = Modifier
             ) { innerPadding ->
-
                Box(modifier = Modifier.padding(innerPadding)){
-
-                   Navigation(navController)
+                   Navigation(navController, innerPadding)
                }
             }
 

@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,23 +33,25 @@ import com.jayr.deepseek.ui.theme.sportOrange
 
 // landing page
 @Composable
-fun LandingPage() {
+fun LandingPage( innerPadding: PaddingValues) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         Image(
             painter = painterResource(R.drawable.landing_page),
             contentDescription = "Background image of person exploring the forest",
             contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+
         )
 
         // first outer column
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
+                .fillMaxSize()
                 .padding(horizontal = 16.dp, vertical = 32.dp)
-                .fillMaxHeight()
-
         ) {
             // contains the text for its a big...outthere go...
             Column(

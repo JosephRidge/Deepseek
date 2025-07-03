@@ -1,9 +1,11 @@
 package com.jayr.deepseek.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +20,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +40,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.jayr.deepseek.TextWithIcon
 import com.jayr.deepseek.ui.screens.FavoritesPage
 import com.jayr.deepseek.ui.screens.HomePage
 import com.jayr.deepseek.ui.screens.LandingPage
@@ -48,8 +51,9 @@ import com.jayr.deepseek.ui.screens.Routes
 fun TextWithImage(text: String, image: Int) {
     Card(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 16.dp
+            defaultElevation = 4.dp
         ),
+//        shape = RoundedCornerShape(32.dp),
         colors = CardColors(
             containerColor = Color.White,
             contentColor = Color.DarkGray,
@@ -61,17 +65,17 @@ fun TextWithImage(text: String, image: Int) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(8.dp).fillMaxHeight()
+            modifier = Modifier.padding(4.dp).fillMaxHeight()
 
         ) {
             Image(
                 painter = painterResource(image),
                 contentDescription = "Images of $text",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(100.dp).clip(RoundedCornerShape(20.dp))
+                modifier = Modifier.size(100.dp).clip(RoundedCornerShape(16.dp))
             )
             Spacer(modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = text, fontWeight = FontWeight.Light, color = Color.Black,
+            Text(text = text, fontWeight = FontWeight.Light, color = Color.Black, fontSize = 14.sp,
                 textAlign = TextAlign.Center)
         }
     }
@@ -125,21 +129,57 @@ fun CityWithRatingCard(name: String, location: String, rating: Float, image: Int
 
 }
 
+@Composable
+fun TextWithIcon(text: String, icon: ImageVector) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = "",
+            modifier = Modifier.size(12.dp),
+            tint = Color.White
+        )
+        Spacer(Modifier.padding(horizontal = 1.5.dp))
+        Text(text = text, fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Light)
+        Spacer(Modifier.padding(vertical = 2.dp))
+    }
+}
+
+@Composable
+fun SmallImageWithCard(text: String, image: Int) {
+    Card(
+        modifier = Modifier.padding(2.dp).background(
+                Color.White.copy(alpha=0.5f)
+                )
+
+    ) {
+        Image(
+            painter = painterResource(image),
+            contentDescription = "Image of $text",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.size(58.dp)
+        )
+    }
+}
+
 // navigation
 
 @Composable
-fun Navigation(navController:NavHostController){
+fun Navigation(navController:NavHostController,  innerPadding: PaddingValues){
 
     NavHost(
         navController = navController,
-        startDestination = Routes.Landing.name,
-//        modifier = Modifier.fillMaxSize()
+        startDestination = Routes.Place.name,
+        modifier = Modifier.fillMaxSize()
     ) {
          composable(route = Routes.Landing.name){
-             LandingPage()
+             LandingPage(innerPadding)
          }
         composable(route = Routes.Home.name){
-            HomePage()
+            HomePage(innerPadding)
         }
         composable(route = Routes.Place.name){
             PlacePage()
