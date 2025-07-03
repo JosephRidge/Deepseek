@@ -220,7 +220,7 @@ fun Navigation(navController:NavHostController, innerPaddingValues: PaddingValue
 
     NavHost(
         navController = navController,
-        startDestination = Routes.Place.name,
+        startDestination = Routes.Landing.name,
     ) {
          composable(route = Routes.Landing.name){
              LandingPage()
