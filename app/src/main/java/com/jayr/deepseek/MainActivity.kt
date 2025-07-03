@@ -29,16 +29,20 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
@@ -55,6 +59,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
@@ -69,6 +74,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -139,7 +145,7 @@ class MainActivity : ComponentActivity() {
                     BottomNavBarItem(
                         title = Routes.Place.name,
                         iconSelected =  Icons.Filled.Favorite,
-                        iconNotSelected = Icons.Outlined.Favorite
+                        iconNotSelected = Icons.Outlined.FavoriteBorder
                     ),
                     BottomNavBarItem(
                         title = Routes.Place.name,
@@ -156,11 +162,20 @@ class MainActivity : ComponentActivity() {
                     bottomBar =
                         {
                             NavigationBar(
-                                modifier = Modifier.background(Color.Gray)
+                                containerColor = Color.White
                             ){
                                 navigationItems.forEachIndexed { index, item ->
                                     NavigationBarItem(
                                         selected = selectedItem == index,
+                                        colors = NavigationBarItemColors(
+                                            selectedIconColor = sportOrange,
+                                            selectedTextColor = sportOrange,
+                                            selectedIndicatorColor = Color.White,
+                                            unselectedIconColor =Color.Gray,
+                                            unselectedTextColor = Color.Gray,
+                                            disabledIconColor = Color.Gray,
+                                            disabledTextColor = Color.Gray,
+                                        ),
                                         onClick = {
                                             selectedItem = index
                                             navController.navigate(route=item.title)
@@ -170,11 +185,21 @@ class MainActivity : ComponentActivity() {
                                         icon = {
                                             if(selectedItem == index){
                                                 item.iconSelected?.let {
-                                                    Icon(
-                                                        imageVector = it,
-                                                        contentDescription = "icon of ${item.title}",
-                                                        modifier = Modifier.size(24.dp)
-                                                    )
+                                                    Column (verticalArrangement = Arrangement.SpaceEvenly){
+                                                        Icon(
+                                                            imageVector = it,
+                                                            contentDescription = "icon of ${item.title}",
+                                                            modifier = Modifier.size(24.dp),
+                                                            tint = sportOrange
+                                                        )
+
+                                                        Icon(
+                                                            imageVector = Icons.Filled.ArrowDropDown,
+                                                            contentDescription = "icon of arrow facing up",
+                                                            modifier = Modifier.scale(scaleX = 1f, scaleY = -1f),
+                                                            tint = sportOrange
+                                                        )
+                                                    }
                                                 }
                                             }else{
                                                 item.iconNotSelected?.let {
@@ -192,12 +217,9 @@ class MainActivity : ComponentActivity() {
 
                             }
                         },
-//                    modifier = Modifier
-//                        .fillMaxSize()
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)){
-
-                        Navigation(navController)
+                        Navigation(navController, innerPadding)
                     }
                 }
 
@@ -207,25 +229,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-// component => a reusable entity
-@Composable
-fun TextWithIcon(text: String, icon: ImageVector) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = "",
-            modifier = Modifier.size(12.dp),
-            tint = Color.White
-        )
-        Spacer(Modifier.padding(horizontal = 1.5.dp))
-        Text(text = text, fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Light)
-        Spacer(Modifier.padding(vertical = 2.dp))
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -278,11 +282,19 @@ fun GreetingPreview() {
                                             icon = {
                                         if(selectedItem == index){
                                             item.iconSelected?.let {
-                                                Icon(
-                                                    imageVector = it,
-                                                    contentDescription = "icon of ${item.title}",
-                                                    modifier = Modifier.size(24.dp)
-                                                )
+                                                Column (verticalArrangement = Arrangement.SpaceEvenly){
+                                                    Icon(
+                                                        imageVector = it,
+                                                        contentDescription = "icon of ${item.title}",
+                                                        modifier = Modifier.size(24.dp)
+                                                    )
+
+                                                    Icon(
+                                                        imageVector = Icons.Filled.ArrowDropDown,
+                                                        contentDescription = "icon of arrow facing up",
+//                                                        modifier = Modifier.scale(scaleX = 1f, scaleY /= -1f)
+                                                    )
+                                                }
                                             }
                                         }else{
                                             item.iconNotSelected?.let {
@@ -303,9 +315,9 @@ fun GreetingPreview() {
                 modifier = Modifier
             ) { innerPadding ->
 
-               Box(modifier = Modifier.padding(innerPadding)){
+               Box( ){
 
-                   Navigation(navController)
+                   Navigation(navController, innerPadding)
                }
             }
 

@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -43,21 +44,26 @@ import com.jayr.deepseek.data.models.getDummyCategories
 import com.jayr.deepseek.data.models.getDummyCities
 import com.jayr.deepseek.ui.components.CityWithRatingCard
 import com.jayr.deepseek.ui.components.TextWithImage
+import com.jayr.deepseek.ui.components.TitleWithNextButton
 import com.jayr.deepseek.ui.theme.sportOrange
 
 
 @Composable
 fun HomePage() {
+    // states
     val searchInput: MutableState<String> = remember {
         mutableStateOf("Discover a City")
     }
 
+    // data
     val cities: List<City> = getDummyCities()
     val categories: List<Category> = getDummyCategories()
 
 
-    Column(modifier = Modifier.padding(vertical = 32.dp, horizontal = 16.dp)
+    Column(modifier = Modifier
         .fillMaxHeight()
+        .padding( horizontal = 16.dp)
+        .verticalScroll(rememberScrollState())
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -177,27 +183,7 @@ fun HomePage() {
             }
         }
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "Categories",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 10.dp)
-            )
-            Text(
-                text = "See all >",
-                color = Color.DarkGray,
-                modifier = Modifier
-                    .padding(vertical = 10.dp)
-                    .clickable {
-                        println("Seeing everything...")
-                    }
-            )
-        }
+        TitleWithNextButton(text="Categories", {})
 
         // categories
         LazyRow {

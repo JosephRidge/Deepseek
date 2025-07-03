@@ -38,7 +38,8 @@ fun LandingPage() {
         Image(
             painter = painterResource(R.drawable.landing_page),
             contentDescription = "Background image of person exploring the forest",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
         )
 
         // first outer column
