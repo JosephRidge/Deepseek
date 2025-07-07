@@ -111,7 +111,7 @@ fun PlacePage(navController: NavHostController) {
 
             Column{
 
-            // snippest of the placess
+            // snippet of the placess
             Row(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -157,14 +157,14 @@ fun PlacePage(navController: NavHostController) {
             ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp).
+                    modifier = Modifier.padding(vertical = 16.dp).
                     verticalScroll(
                         rememberScrollState()
                     )
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
                     ) {
                         Text(
                             text = "Passo Rolle, TN",
@@ -182,7 +182,7 @@ fun PlacePage(navController: NavHostController) {
                     }
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp)
                     ) {
 
                         TextWithIcon(
@@ -204,7 +204,7 @@ fun PlacePage(navController: NavHostController) {
                     HorizontalDivider(
                         color = Color.Gray,
                         thickness = 1.5.dp,
-                        modifier = Modifier.padding(vertical = 4.dp)
+                        modifier = Modifier.padding(vertical = 4.dp,horizontal = 16.dp)
                     )
 
                     TitleWithNextButton(text = "Facilities", {})
@@ -214,6 +214,7 @@ fun PlacePage(navController: NavHostController) {
                     // display facilities
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         items(facilityTypes.size) { index ->
                             Card(
@@ -259,7 +260,7 @@ fun PlacePage(navController: NavHostController) {
                         text = "Description",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(vertical = 2.dp)
+                        modifier = Modifier.padding(vertical = 2.dp,horizontal = 16.dp)
                     )
 
                     Text(
@@ -268,9 +269,10 @@ fun PlacePage(navController: NavHostController) {
                         maxLines =2,
                         overflow = TextOverflow.Ellipsis,
                         fontSize = 12.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     )
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
                     ) {
                         // indicates the price
                         Column(

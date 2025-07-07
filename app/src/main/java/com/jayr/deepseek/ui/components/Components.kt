@@ -210,7 +210,7 @@ fun CardWithSmallImage(image:Int, contentDescription:String){
             disabledContainerColor = Color.LightGray,
             disabledContentColor = Color.DarkGray
         ),
-        modifier = Modifier.padding(4.dp)
+        modifier = Modifier.padding(2.dp)
     ) {
         AsyncImage(
             model = image,
