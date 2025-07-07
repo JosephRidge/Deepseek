@@ -58,7 +58,7 @@ import com.jayr.deepseek.ui.theme.sportOrange
 
 @Composable
 fun TextWithImage(text: String, image: Int) {
-    Box(modifier = Modifier.padding(4.dp)){
+    Box(modifier = Modifier.padding(4.dp)) {
         AsyncImage(
             model = image,
             contentDescription = "Images of $text",
@@ -71,18 +71,19 @@ fun TextWithImage(text: String, image: Int) {
         Badge(
             containerColor = Color.Black,
             modifier = Modifier
-            .padding(4.dp).align(Alignment.BottomCenter),
-          content = {
-              Text(
-                  text = text,
-                  fontWeight = FontWeight.Bold,
-                  color = Color.White,
-                  textAlign = TextAlign.Center,
-                  modifier = Modifier
-                      .fillMaxWidth()
-                      .padding(4.dp)
-              )
-          }
+                .padding(4.dp)
+                .align(Alignment.BottomCenter),
+            content = {
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp)
+                )
+            }
         )
 
     }
@@ -91,9 +92,11 @@ fun TextWithImage(text: String, image: Int) {
 
 // component => a reusable entity
 @Composable
-fun TextWithIcon(text: String, icon: ImageVector,
-                 fontSize: TextUnit, iconSize: Dp,
-                 tint:Color) {
+fun TextWithIcon(
+    text: String, icon: ImageVector,
+    fontSize: TextUnit, iconSize: Dp,
+    tint: Color
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -147,8 +150,20 @@ fun CityWithRatingCard(name: String, location: String, rating: Float, image: Int
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
                 Row {
-                    TextWithIcon(location, Icons.Filled.LocationOn, fontSize = 12.sp, iconSize = 12.dp, tint = Color.White)
-                    TextWithIcon("$rating", Icons.Filled.Star, fontSize = 12.sp, iconSize = 12.dp,tint = Color.White)
+                    TextWithIcon(
+                        location,
+                        Icons.Filled.LocationOn,
+                        fontSize = 12.sp,
+                        iconSize = 12.dp,
+                        tint = Color.White
+                    )
+                    TextWithIcon(
+                        "$rating",
+                        Icons.Filled.Star,
+                        fontSize = 12.sp,
+                        iconSize = 12.dp,
+                        tint = Color.White
+                    )
                 }
             }
         }
@@ -157,7 +172,7 @@ fun CityWithRatingCard(name: String, location: String, rating: Float, image: Int
 }
 
 @Composable
-fun TitleWithNextButton(text:String, onClick: () -> Unit){
+fun TitleWithNextButton(text: String, onClick: () -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -185,9 +200,10 @@ fun TitleWithNextButton(text:String, onClick: () -> Unit){
 
 @Composable
 fun IconButtonComponent(
-    onClick:()->Unit,
+    onClick: () -> Unit,
     imageVector: ImageVector,
-    contentDescription:String ){
+    contentDescription: String
+) {
     IconButton(
         onClick = onClick,
         modifier = Modifier
@@ -201,8 +217,9 @@ fun IconButtonComponent(
         )
     }
 }
+
 @Composable
-fun CardWithSmallImage(image:Int, contentDescription:String){
+fun CardWithSmallImage(image: Int, contentDescription: String) {
     Card(
         colors = CardColors(
             containerColor = Color.White,
@@ -223,27 +240,28 @@ fun CardWithSmallImage(image:Int, contentDescription:String){
         )
     }
 }
+
 // navigation
 @Composable
-fun Navigation(navController:NavHostController, innerPaddingValues: PaddingValues){
+fun Navigation(navController: NavHostController, innerPaddingValues: PaddingValues) {
 
     NavHost(
         navController = navController,
         startDestination = Routes.Landing.name,
     ) {
-         composable(route = Routes.Landing.name){
-             LandingPage(innerPaddingValues, navController)
-         }
-        composable(route = Routes.Home.name){
+        composable(route = Routes.Landing.name) {
+            LandingPage(innerPaddingValues, navController)
+        }
+        composable(route = Routes.Home.name) {
             HomePage()
         }
-        composable(route = Routes.Place.name){
+        composable(route = Routes.Place.name) {
             PlacePage(navController)
         }
-        composable(route = Routes.Favorites.name){
+        composable(route = Routes.Favorites.name) {
             FavoritesPage()
         }
-        composable(route = Routes.Profile.name){
+        composable(route = Routes.Profile.name) {
             ProfilePage()
         }
     }

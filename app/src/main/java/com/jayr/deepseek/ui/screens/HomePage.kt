@@ -68,7 +68,7 @@ fun HomePage() {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
-            .padding( vertical = 16.dp,)
+            .padding(vertical = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Row(
@@ -114,9 +114,9 @@ fun HomePage() {
         // input/ search section
         TextField(
             value = searchInput.value,
-            placeholder = {Text(text="Discover the world")},
+            placeholder = { Text(text = "Discover the world") },
             colors = TextFieldDefaults.colors(
-              focusedContainerColor = Color.White,
+                focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
                 errorContainerColor = Color.Red,
                 focusedIndicatorColor = sportOrange,
@@ -127,7 +127,7 @@ fun HomePage() {
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 10.dp , horizontal = 8.dp)
+                .padding(vertical = 10.dp, horizontal = 8.dp)
                 .clip(RoundedCornerShape(24.dp)),
             leadingIcon = {
                 Icon(
@@ -160,11 +160,15 @@ fun HomePage() {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(vertical = 8.dp,horizontal = 16.dp)
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
             ) {
-                Text(text = "All", color = Color.Gray, modifier = Modifier.padding(horizontal = 0.dp))
+                Text(
+                    text = "All",
+                    color = Color.Gray,
+                    modifier = Modifier.padding(horizontal = 0.dp)
+                )
                 Text(
                     text = "Popular",
                     color = Color.DarkGray,
@@ -208,7 +212,7 @@ fun HomePage() {
         Column(
 
         ) {
-            TitleWithNextButton(text="Categories", {})
+            TitleWithNextButton(text = "Categories", {})
             // categories
             LazyRow {
                 items(categories.size) { index ->

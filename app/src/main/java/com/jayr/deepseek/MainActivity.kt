@@ -165,7 +165,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     bottomBar =
                         {
-                            if(currentRoute != "Landing"){
+                            if (currentRoute != "Landing") {
 
                                 NavigationBar(
                                     containerColor = Color.White
@@ -227,9 +227,12 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                 ) { innerPadding ->
-                    Box(modifier = Modifier
-                        .background(Color.White).padding(innerPadding) // 👈 Key part: respects bottom bar
-                            .fillMaxSize()) {
+                    Box(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(innerPadding) // 👈 Key part: respects bottom bar
+                            .fillMaxSize()
+                    ) {
                         Navigation(navController, innerPadding)
                     }
                 }

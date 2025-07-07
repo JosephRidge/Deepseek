@@ -73,6 +73,7 @@ fun getScreenWidth(): Dp {
     val screenWidth = configuration.screenWidthDp.dp
     return screenWidth
 }
+
 @Composable
 fun PlacePage(navController: NavHostController) {
     Box(
@@ -84,11 +85,11 @@ fun PlacePage(navController: NavHostController) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        Column (
+        Column(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxSize()
 
-        ){
+        ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
@@ -109,216 +110,228 @@ fun PlacePage(navController: NavHostController) {
             }
 
 
-            Column{
+            Column {
 
-            // snippet of the placess
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
+                // snippet of the placess
                 Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color.White.copy(alpha = 0.2f))
-                        .padding(4.dp)
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    CardWithSmallImage(
-                        image = R.drawable.camp,
-                        contentDescription = "Image of camp"
-                    )
-                    CardWithSmallImage(
-                        image = R.drawable.boat,
-                        contentDescription = "Image of boat"
-                    )
-                    CardWithSmallImage(
-                        image = R.drawable.hungary,
-                        contentDescription = "Image of parliament in hungary"
-                    )
-                    CardWithSmallImage(
-                        image = R.drawable.park,
-                        contentDescription = "Image of bicycle"
-                    )
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(Color.White.copy(alpha = 0.2f))
+                            .padding(4.dp)
+                    ) {
+                        CardWithSmallImage(
+                            image = R.drawable.camp,
+                            contentDescription = "Image of camp"
+                        )
+                        CardWithSmallImage(
+                            image = R.drawable.boat,
+                            contentDescription = "Image of boat"
+                        )
+                        CardWithSmallImage(
+                            image = R.drawable.hungary,
+                            contentDescription = "Image of parliament in hungary"
+                        )
+                        CardWithSmallImage(
+                            image = R.drawable.park,
+                            contentDescription = "Image of bicycle"
+                        )
+                    }
                 }
-            }
 
-            // place details
-            Card(
-                colors = CardColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black,
-                    disabledContainerColor = Color.LightGray,
-                    disabledContentColor = Color.DarkGray
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(32.dp))
+                // place details
+                Card(
+                    colors = CardColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black,
+                        disabledContainerColor = Color.LightGray,
+                        disabledContentColor = Color.DarkGray
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(32.dp))
 
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(vertical = 16.dp).
-                    verticalScroll(
-                        rememberScrollState()
-                    )
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .padding(vertical = 16.dp)
+                            .verticalScroll(
+                                rememberScrollState()
+                            )
                     ) {
-                        Text(
-                            text = "Passo Rolle, TN",
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            Text(
+                                text = "Passo Rolle, TN",
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 20.sp
+                            )
+
+                            TextWithIcon(
+                                text = "4.7(9K review)",
+                                icon = Icons.Outlined.Star,
+                                fontSize = 16.sp,
+                                iconSize = 16.dp,
+                                tint = sportOrange
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 18.dp)
+                        ) {
+
+                            TextWithIcon(
+                                text = "Italia",
+                                icon = Icons.Outlined.LocationOn,
+                                fontSize = 12.sp,
+                                iconSize = 16.dp,
+                                tint = Color.DarkGray
+                            )
+
+                            TextWithIcon(
+                                text = "Map Direction",
+                                icon = Icons.Outlined.LocationOn,
+                                fontSize = 12.sp,
+                                iconSize = 16.dp,
+                                tint = sportOrange
+                            )
+                        }
+                        HorizontalDivider(
+                            color = Color.Gray,
+                            thickness = 1.5.dp,
+                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
                         )
 
-                        TextWithIcon(
-                            text = "4.7(9K review)",
-                            icon = Icons.Outlined.Star,
-                            fontSize = 16.sp,
-                            iconSize = 16.dp,
-                            tint = sportOrange
-                        )
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp)
-                    ) {
+                        TitleWithNextButton(text = "Facilities", {})
 
-                        TextWithIcon(
-                            text = "Italia",
-                            icon = Icons.Outlined.LocationOn,
-                            fontSize = 12.sp,
-                            iconSize = 16.dp,
-                            tint = Color.DarkGray
-                        )
+                        val facilityTypes: List<Facility> = getDummyFacilities()
 
-                        TextWithIcon(
-                            text = "Map Direction",
-                            icon = Icons.Outlined.LocationOn,
-                            fontSize = 12.sp,
-                            iconSize = 16.dp,
-                            tint = sportOrange
-                        )
-                    }
-                    HorizontalDivider(
-                        color = Color.Gray,
-                        thickness = 1.5.dp,
-                        modifier = Modifier.padding(vertical = 4.dp,horizontal = 16.dp)
-                    )
-
-                    TitleWithNextButton(text = "Facilities", {})
-
-                    val facilityTypes: List<Facility> = getDummyFacilities()
-
-                    // display facilities
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    ) {
-                        items(facilityTypes.size) { index ->
-                            Card(
-                                colors = CardColors(
-                                    containerColor = Color.White,
-                                    contentColor = Color.Black,
-                                    disabledContainerColor = Color.LightGray,
-                                    disabledContentColor = Color.DarkGray
-                                ),
-                                elevation = CardDefaults.cardElevation(
-                                    defaultElevation = 2.dp
-                                ),
-                                modifier = Modifier.padding(horizontal = 4.dp)
-                            ) {
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.padding(4.dp)
+                        // display facilities
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        ) {
+                            items(facilityTypes.size) { index ->
+                                Card(
+                                    colors = CardColors(
+                                        containerColor = Color.White,
+                                        contentColor = Color.Black,
+                                        disabledContainerColor = Color.LightGray,
+                                        disabledContentColor = Color.DarkGray
+                                    ),
+                                    elevation = CardDefaults.cardElevation(
+                                        defaultElevation = 2.dp
+                                    ),
+                                    modifier = Modifier.padding(horizontal = 4.dp)
                                 ) {
-                                    Image(
-                                        painter = painterResource(facilityTypes[index].icon),
-                                        contentDescription = "Image of bed",
-                                        colorFilter = ColorFilter.tint(Color.DarkGray),
-                                        modifier = Modifier
-                                            .height(32.dp)
-                                            .width(32.dp)
-                                            .clip(
-                                                RoundedCornerShape(12.dp)
-                                            )
-                                            .background(lightGray)
-                                            .padding(8.dp)
-                                    )
-                                    Text(
-                                        text = facilityTypes[index].text
-                                    )
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.padding(4.dp)
+                                    ) {
+                                        Image(
+                                            painter = painterResource(facilityTypes[index].icon),
+                                            contentDescription = "Image of bed",
+                                            colorFilter = ColorFilter.tint(Color.DarkGray),
+                                            modifier = Modifier
+                                                .height(32.dp)
+                                                .width(32.dp)
+                                                .clip(
+                                                    RoundedCornerShape(12.dp)
+                                                )
+                                                .background(lightGray)
+                                                .padding(8.dp)
+                                        )
+                                        Text(
+                                            text = facilityTypes[index].text
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
-                    Spacer(modifier = Modifier.padding(vertical =0.5.dp))
+                        Spacer(modifier = Modifier.padding(vertical = 0.5.dp))
 // description section
-                    Text(
-                        text = "Description",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(vertical = 2.dp,horizontal = 16.dp)
-                    )
+                        Text(
+                            text = "Description",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(vertical = 2.dp, horizontal = 16.dp)
+                        )
 
-                    Text(
-                        text = stringResource(R.string.dummy_text),
-                        color = Color.Gray,
-                        maxLines =2,
-                        overflow = TextOverflow.Ellipsis,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                    ) {
-                        // indicates the price
-                        Column(
-                            modifier = Modifier.padding(horizontal = 12.dp)
+                        Text(
+                            text = stringResource(R.string.dummy_text),
+                            color = Color.Gray,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
                         ) {
-                            Text(
-                                text = "$780",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.ExtraBold,
-
-                            )
-                            Text(
-                                text = "/ person",
-                                fontSize = 12.sp,
-                                color = Color.Gray
-                            )
-                        }
-
-                        var screenWidth:Dp = getScreenWidth()
-
-                        // indicates the button
-                        Button(
-                            colors = ButtonColors(
-                                containerColor = sportOrange,
-                                contentColor = Color.White,
-                                disabledContainerColor = Color.Gray,
-                                disabledContentColor = Color.DarkGray
-                            ),
-                            onClick = {},
-                            modifier = Modifier.fillMaxHeight().fillMaxWidth() .padding(horizontal = 8.dp)
-
-                        ) {
-                            Text(text="Book Now",
-                                modifier = Modifier.padding(vertical = 8.dp))
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = "Image of arrow forward",
+                            // indicates the price
+                            Column(
                                 modifier = Modifier.padding(horizontal = 12.dp)
-                            )
+                            ) {
+                                Text(
+                                    text = "$780",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+
+                                    )
+                                Text(
+                                    text = "/ person",
+                                    fontSize = 12.sp,
+                                    color = Color.Gray
+                                )
+                            }
+
+                            var screenWidth: Dp = getScreenWidth()
+
+                            // indicates the button
+                            Button(
+                                colors = ButtonColors(
+                                    containerColor = sportOrange,
+                                    contentColor = Color.White,
+                                    disabledContainerColor = Color.Gray,
+                                    disabledContentColor = Color.DarkGray
+                                ),
+                                onClick = {},
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 8.dp)
+
+                            ) {
+                                Text(
+                                    text = "Book Now",
+                                    modifier = Modifier.padding(vertical = 8.dp)
+                                )
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                    contentDescription = "Image of arrow forward",
+                                    modifier = Modifier.padding(horizontal = 12.dp)
+                                )
+                            }
                         }
+
                     }
+
 
                 }
-
-
-            }
             }
 
         }
