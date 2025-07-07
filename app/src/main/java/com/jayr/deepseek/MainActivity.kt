@@ -223,16 +223,13 @@ class MainActivity : ComponentActivity() {
                                             label = { item.title },
                                         )
                                     }
-
-
                                 }
                             }
-
-
-
                         },
                 ) { innerPadding ->
-                    Box(modifier = Modifier) {
+                    Box(modifier = Modifier
+                        .background(Color.White).padding(innerPadding) // 👈 Key part: respects bottom bar
+                            .fillMaxSize()) {
                         Navigation(navController, innerPadding)
                     }
                 }

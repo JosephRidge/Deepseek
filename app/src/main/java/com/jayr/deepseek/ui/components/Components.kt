@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -57,34 +58,33 @@ import com.jayr.deepseek.ui.theme.sportOrange
 
 @Composable
 fun TextWithImage(text: String, image: Int) {
-    Card(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 16.dp
-        ),
-        colors = CardColors(
-            containerColor = Color.White,
-            contentColor = Color.DarkGray,
-            disabledContainerColor = Color.DarkGray,
-            disabledContentColor = Color.Gray
-        ),
-        modifier = Modifier.padding(8.dp).height(150.dp)
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(8.dp).fillMaxHeight()
+    Box(modifier = Modifier.padding(4.dp)){
+        AsyncImage(
+            model = image,
+            contentDescription = "Images of $text",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(100.dp)
+                .clip(RoundedCornerShape(20.dp))
+        )
+        Spacer(modifier = Modifier.padding(vertical = 4.dp))
+        Badge(
+            containerColor = Color.Black,
+            modifier = Modifier
+            .padding(4.dp).align(Alignment.BottomCenter),
+          content = {
+              Text(
+                  text = text,
+                  fontWeight = FontWeight.Bold,
+                  color = Color.White,
+                  textAlign = TextAlign.Center,
+                  modifier = Modifier
+                      .fillMaxWidth()
+                      .padding(4.dp)
+              )
+          }
+        )
 
-        ) {
-            Image(
-                painter = painterResource(image),
-                contentDescription = "Images of $text",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(100.dp).clip(RoundedCornerShape(20.dp))
-            )
-            Spacer(modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = text, fontWeight = FontWeight.Light, color = Color.Black,
-                textAlign = TextAlign.Center)
-        }
     }
 }
 
@@ -123,12 +123,6 @@ fun CityWithRatingCard(name: String, location: String, rating: Float, image: Int
         Box(
             contentAlignment = Alignment.BottomCenter,
         ) {
-            // background image
-//            Image(
-//                painter = painterResource(image),
-//                contentDescription = "Image of $name",
-//                contentScale = ContentScale.FillBounds
-//            )
             AsyncImage(
                 model = image,
                 contentDescription = null,
@@ -167,11 +161,13 @@ fun TitleWithNextButton(text:String, onClick: () -> Unit){
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
         Text(
             text = text,
-            fontSize = 18.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 10.dp)
         )
@@ -208,13 +204,20 @@ fun IconButtonComponent(
 @Composable
 fun CardWithSmallImage(image:Int, contentDescription:String){
     Card(
+        colors = CardColors(
+            containerColor = Color.White,
+            contentColor = Color.Black,
+            disabledContainerColor = Color.LightGray,
+            disabledContentColor = Color.DarkGray
+        ),
         modifier = Modifier.padding(4.dp)
     ) {
-        Image(
-            painter = painterResource(image),
+        AsyncImage(
+            model = image,
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(64.dp)
+            modifier = Modifier
+                .size(64.dp)
                 .padding(4.dp)
                 .clip(RoundedCornerShape(8.dp))
         )

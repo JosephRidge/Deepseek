@@ -31,6 +31,7 @@ import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.HorizontalDivider
@@ -142,6 +143,12 @@ fun PlacePage(navController: NavHostController) {
 
             // place details
             Card(
+                colors = CardColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                    disabledContainerColor = Color.LightGray,
+                    disabledContentColor = Color.DarkGray
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -210,6 +217,12 @@ fun PlacePage(navController: NavHostController) {
                     ) {
                         items(facilityTypes.size) { index ->
                             Card(
+                                colors = CardColors(
+                                    containerColor = Color.White,
+                                    contentColor = Color.Black,
+                                    disabledContainerColor = Color.LightGray,
+                                    disabledContentColor = Color.DarkGray
+                                ),
                                 elevation = CardDefaults.cardElevation(
                                     defaultElevation = 2.dp
                                 ),
