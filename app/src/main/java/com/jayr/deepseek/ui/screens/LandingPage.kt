@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,13 +26,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.jayr.deepseek.R
 import com.jayr.deepseek.ui.theme.sportOrange
 
 
 // landing page
 @Composable
-fun LandingPage() {
+fun LandingPage(innerPadding:PaddingValues,navController: NavHostController) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -74,7 +76,9 @@ fun LandingPage() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(route = Routes.Home.name)
+                    },
                     colors = ButtonColors(
                         containerColor = sportOrange,
                         contentColor = Color.White,

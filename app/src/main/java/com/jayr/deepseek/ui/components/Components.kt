@@ -46,6 +46,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import coil3.compose.AsyncImage
 import com.jayr.deepseek.ui.screens.FavoritesPage
 import com.jayr.deepseek.ui.screens.HomePage
 import com.jayr.deepseek.ui.screens.LandingPage
@@ -123,10 +124,15 @@ fun CityWithRatingCard(name: String, location: String, rating: Float, image: Int
             contentAlignment = Alignment.BottomCenter,
         ) {
             // background image
-            Image(
-                painter = painterResource(image),
-                contentDescription = "Image of $name",
-                contentScale = ContentScale.FillBounds
+//            Image(
+//                painter = painterResource(image),
+//                contentDescription = "Image of $name",
+//                contentScale = ContentScale.FillBounds
+//            )
+            AsyncImage(
+                model = image,
+                contentDescription = null,
+                contentScale = ContentScale.Crop
             )
             Card(
                 colors = CardColors(
@@ -165,7 +171,7 @@ fun TitleWithNextButton(text:String, onClick: () -> Unit){
     ) {
         Text(
             text = text,
-            fontSize = 24.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 10.dp)
         )
@@ -223,7 +229,7 @@ fun Navigation(navController:NavHostController, innerPaddingValues: PaddingValue
         startDestination = Routes.Landing.name,
     ) {
          composable(route = Routes.Landing.name){
-             LandingPage()
+             LandingPage(innerPaddingValues, navController)
          }
         composable(route = Routes.Home.name){
             HomePage()

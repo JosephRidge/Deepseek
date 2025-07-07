@@ -67,6 +67,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -93,6 +94,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jayr.deepseek.data.models.BottomNavBarItem
 import com.jayr.deepseek.data.models.Category
@@ -101,12 +103,11 @@ import com.jayr.deepseek.data.models.getDummyCategories
 import com.jayr.deepseek.data.models.getDummyCities
 import com.jayr.deepseek.ui.components.Navigation
 import com.jayr.deepseek.ui.screens.HomePage
+import com.jayr.deepseek.ui.screens.LandingPage
 import com.jayr.deepseek.ui.screens.Routes
 import com.jayr.deepseek.ui.theme.DeepseekTheme
 import com.jayr.deepseek.ui.theme.sportOrange
 import kotlinx.serialization.StringFormat
-
-
 
 
 /**
@@ -119,7 +120,6 @@ import kotlinx.serialization.StringFormat
  */
 
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
                 val navigationItems = listOf(
                     BottomNavBarItem(
                         title = Routes.Landing.name,
-                        iconSelected =  Icons.Filled.Home,
+                        iconSelected = Icons.Filled.Home,
                         iconNotSelected = Icons.Outlined.Home
                     ),
                     BottomNavBarItem(
@@ -139,187 +139,104 @@ class MainActivity : ComponentActivity() {
                     ),
                     BottomNavBarItem(
                         title = Routes.Place.name,
-                        iconSelected =  Icons.Filled.LocationOn,
+                        iconSelected = Icons.Filled.LocationOn,
                         iconNotSelected = Icons.Outlined.LocationOn
                     ),
                     BottomNavBarItem(
-                        title = Routes.Place.name,
-                        iconSelected =  Icons.Filled.Favorite,
+                        title = Routes.Favorites.name,
+                        iconSelected = Icons.Filled.Favorite,
                         iconNotSelected = Icons.Outlined.FavoriteBorder
                     ),
                     BottomNavBarItem(
-                        title = Routes.Place.name,
-                        iconSelected =  Icons.Filled.Person,
+                        title = Routes.Profile.name,
+                        iconSelected = Icons.Filled.Person,
                         iconNotSelected = Icons.Outlined.Person
                     )
                 )
                 var selectedItem by rememberSaveable {
-                    mutableStateOf(0)
+                    mutableIntStateOf(0)
                 }
-                var navController: NavHostController = rememberNavController()
-                Scaffold(
+                val navController: NavHostController = rememberNavController()
 
+// current backstack
+                val currentBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = currentBackStackEntry?.destination?.route
+
+                Scaffold(
                     bottomBar =
                         {
-                            NavigationBar(
-                                containerColor = Color.White
-                            ){
-                                navigationItems.forEachIndexed { index, item ->
-                                    NavigationBarItem(
-                                        selected = selectedItem == index,
-                                        colors = NavigationBarItemColors(
-                                            selectedIconColor = sportOrange,
-                                            selectedTextColor = sportOrange,
-                                            selectedIndicatorColor = Color.White,
-                                            unselectedIconColor =Color.Gray,
-                                            unselectedTextColor = Color.Gray,
-                                            disabledIconColor = Color.Gray,
-                                            disabledTextColor = Color.Gray,
-                                        ),
-                                        onClick = {
-                                            selectedItem = index
-                                            navController.navigate(route=item.title)
-                                            println("Navigations......")
-                                        },
+                            if(currentRoute != "Landing"){
 
-                                        icon = {
-                                            if(selectedItem == index){
-                                                item.iconSelected?.let {
-                                                    Column (verticalArrangement = Arrangement.SpaceEvenly){
+                                NavigationBar(
+                                    containerColor = Color.White
+                                ) {
+                                    navigationItems.forEachIndexed { index, item ->
+                                        NavigationBarItem(
+                                            selected = selectedItem == index,
+                                            colors = NavigationBarItemColors(
+                                                selectedIconColor = sportOrange,
+                                                selectedTextColor = sportOrange,
+                                                selectedIndicatorColor = Color.White,
+                                                unselectedIconColor = Color.Gray,
+                                                unselectedTextColor = Color.Gray,
+                                                disabledIconColor = Color.Gray,
+                                                disabledTextColor = Color.Gray,
+                                            ),
+                                            onClick = {
+                                                selectedItem = index
+                                                navController.navigate(route = item.title)
+                                                println("Navigations......")
+                                            },
+
+                                            icon = {
+                                                if (selectedItem == index) {
+                                                    item.iconSelected?.let {
+                                                        Column(verticalArrangement = Arrangement.SpaceEvenly) {
+                                                            Icon(
+                                                                imageVector = it,
+                                                                contentDescription = "icon of ${item.title}",
+                                                                modifier = Modifier.size(24.dp),
+                                                                tint = sportOrange
+                                                            )
+
+                                                            Icon(
+                                                                imageVector = Icons.Filled.ArrowDropDown,
+                                                                contentDescription = "icon of arrow facing up",
+                                                                modifier = Modifier.scale(
+                                                                    scaleX = 1f,
+                                                                    scaleY = -1f
+                                                                ),
+                                                                tint = sportOrange
+                                                            )
+                                                        }
+                                                    }
+                                                } else {
+                                                    item.iconNotSelected?.let {
                                                         Icon(
                                                             imageVector = it,
                                                             contentDescription = "icon of ${item.title}",
-                                                            modifier = Modifier.size(24.dp),
-                                                            tint = sportOrange
-                                                        )
-
-                                                        Icon(
-                                                            imageVector = Icons.Filled.ArrowDropDown,
-                                                            contentDescription = "icon of arrow facing up",
-                                                            modifier = Modifier.scale(scaleX = 1f, scaleY = -1f),
-                                                            tint = sportOrange
+                                                            modifier = Modifier.size(24.dp)
                                                         )
                                                     }
                                                 }
-                                            }else{
-                                                item.iconNotSelected?.let {
-                                                    Icon(
-                                                        imageVector = it,
-                                                        contentDescription = "icon of ${item.title}",
-                                                        modifier = Modifier.size(24.dp)
-                                                    )
-                                                }
-                                            }
-                                        },
-                                        label = { item.title},
-                                    )
-                                }
+                                            },
+                                            label = { item.title },
+                                        )
+                                    }
 
+
+                                }
                             }
+
+
+
                         },
                 ) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)){
+                    Box(modifier = Modifier) {
                         Navigation(navController, innerPadding)
                     }
                 }
-
             }
         }
     }
-}
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DeepseekTheme {
-            var navigationItems = listOf(
-                BottomNavBarItem(
-                    title = Routes.Landing.name,
-                    iconSelected =  Icons.Filled.Home,
-                    iconNotSelected = Icons.Outlined.Home
-                ),
-                BottomNavBarItem(
-                    title = Routes.Home.name,
-                    iconSelected = Icons.Filled.Search,
-                    iconNotSelected = Icons.Outlined.Search
-                ),
-                BottomNavBarItem(
-                    title = Routes.Place.name,
-                    iconSelected =  Icons.Filled.LocationOn,
-                    iconNotSelected = Icons.Outlined.LocationOn
-                ),
-                BottomNavBarItem(
-                    title = Routes.Place.name,
-                    iconSelected =  Icons.Filled.Favorite,
-                    iconNotSelected = Icons.Outlined.Favorite
-                ),
-                BottomNavBarItem(
-                    title = Routes.Place.name,
-                    iconSelected =  Icons.Filled.Person,
-                    iconNotSelected = Icons.Outlined.Person
-                )
-            )
-            var selectedItem by rememberSaveable {
-                mutableStateOf(0)
-            }
-            val navController:NavHostController =   rememberNavController()
-            Scaffold(
-
-                bottomBar =
-                    {
-                        NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                            navigationItems.forEachIndexed { index, item ->
-                                NavigationBarItem(
-                                    selected = selectedItem == index,
-                                    onClick = {
-                                        selectedItem = index
-                                        navController.navigate(route=item.title)
-                                    },
-
-                                            icon = {
-                                        if(selectedItem == index){
-                                            item.iconSelected?.let {
-                                                Column (verticalArrangement = Arrangement.SpaceEvenly){
-                                                    Icon(
-                                                        imageVector = it,
-                                                        contentDescription = "icon of ${item.title}",
-                                                        modifier = Modifier.size(24.dp)
-                                                    )
-
-                                                    Icon(
-                                                        imageVector = Icons.Filled.ArrowDropDown,
-                                                        contentDescription = "icon of arrow facing up",
-//                                                        modifier = Modifier.scale(scaleX = 1f, scaleY /= -1f)
-                                                    )
-                                                }
-                                            }
-                                        }else{
-                                            item.iconNotSelected?.let {
-                                                Icon(
-                                                    imageVector = it,
-                                                    contentDescription = "icon of ${item.title}",
-                                                    modifier = Modifier.size(24.dp)
-                                                )
-                                            }
-                                        }
-                                    },
-                                    label = { item.title},
-                                )
-                            }
-
-                        }
-                    },
-                modifier = Modifier
-            ) { innerPadding ->
-
-               Box( ){
-
-                   Navigation(navController, innerPadding)
-               }
-            }
-
-        }
 }

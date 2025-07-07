@@ -1,11 +1,14 @@
 package com.jayr.deepseek.ui.screens
 
+import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,14 +16,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
@@ -36,8 +45,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowInsetsAnimationCompat.Callback
@@ -51,8 +64,14 @@ import com.jayr.deepseek.ui.components.TextWithIcon
 import com.jayr.deepseek.ui.components.TitleWithNextButton
 import com.jayr.deepseek.ui.theme.lightGray
 import com.jayr.deepseek.ui.theme.sportOrange
-import kotlinx.coroutines.internal.OpDescriptor
 
+@Composable
+fun getScreenWidth(): Dp {
+    val configuration = LocalConfiguration.current
+//    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+    return screenWidth
+}
 @Composable
 fun PlacePage(navController: NavHostController) {
     Box(
@@ -64,8 +83,11 @@ fun PlacePage(navController: NavHostController) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        Column {
+        Column (
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize()
 
+        ){
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
@@ -85,6 +107,8 @@ fun PlacePage(navController: NavHostController) {
                 )
             }
 
+
+            Column{
 
             // snippest of the placess
             Row(
@@ -126,7 +150,10 @@ fun PlacePage(navController: NavHostController) {
             ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(vertical = 32.dp, horizontal = 16.dp)
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp).
+                    verticalScroll(
+                        rememberScrollState()
+                    )
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -134,8 +161,8 @@ fun PlacePage(navController: NavHostController) {
                     ) {
                         Text(
                             text = "Passo Rolle, TN",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp
                         )
 
                         TextWithIcon(
@@ -175,16 +202,18 @@ fun PlacePage(navController: NavHostController) {
 
                     TitleWithNextButton(text = "Facilities", {})
 
-                    val facilityTypes:List<Facility> = getDummyFacilities()
+                    val facilityTypes: List<Facility> = getDummyFacilities()
 
+                    // display facilities
                     LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         items(facilityTypes.size) { index ->
                             Card(
                                 elevation = CardDefaults.cardElevation(
-                                    defaultElevation = 12.dp
+                                    defaultElevation = 2.dp
                                 ),
+                                modifier = Modifier.padding(horizontal = 4.dp)
                             ) {
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -209,17 +238,74 @@ fun PlacePage(navController: NavHostController) {
                                     )
                                 }
                             }
+                        }
                     }
+                    Spacer(modifier = Modifier.padding(vertical =0.5.dp))
+// description section
+                    Text(
+                        text = "Description",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 2.dp)
+                    )
 
+                    Text(
+                        text = stringResource(R.string.dummy_text),
+                        color = Color.Gray,
+                        maxLines =2,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 12.sp,
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        // indicates the price
+                        Column(
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        ) {
+                            Text(
+                                text = "$780",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.ExtraBold,
 
+                            )
+                            Text(
+                                text = "/ person",
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                        }
 
+                        var screenWidth:Dp = getScreenWidth()
+
+                        // indicates the button
+                        Button(
+                            colors = ButtonColors(
+                                containerColor = sportOrange,
+                                contentColor = Color.White,
+                                disabledContainerColor = Color.Gray,
+                                disabledContentColor = Color.DarkGray
+                            ),
+                            onClick = {},
+                            modifier = Modifier.fillMaxHeight().fillMaxWidth() .padding(horizontal = 8.dp)
+
+                        ) {
+                            Text(text="Book Now",
+                                modifier = Modifier.padding(vertical = 8.dp))
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = "Image of arrow forward",
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        }
+                    }
 
                 }
 
+
+            }
             }
 
-
         }
-
     }
-}}
+}
