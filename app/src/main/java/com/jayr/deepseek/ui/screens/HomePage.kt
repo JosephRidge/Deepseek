@@ -122,7 +122,9 @@ fun HomePage() {
                 focusedIndicatorColor = sportOrange,
                 unfocusedIndicatorColor = Color.LightGray,
                 focusedLeadingIconColor = sportOrange,
-                unfocusedLeadingIconColor = Color.LightGray
+                unfocusedLeadingIconColor = Color.LightGray,
+                focusedTrailingIconColor = sportOrange,
+                unfocusedTrailingIconColor = Color.LightGray
 
             ),
             modifier = Modifier
@@ -133,14 +135,12 @@ fun HomePage() {
                 Icon(
                     imageVector = Icons.Filled.Search,
                     contentDescription = "search icon",
-                    tint = sportOrange
                 )
             },
             trailingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.filter),
                     contentDescription = "filter button",
-                    tint = sportOrange
                 )
             },
 
@@ -192,7 +192,7 @@ fun HomePage() {
 
             }
             // city cards with ratings
-            // Lazy layouts (lazyrow and lazycolumns ) are best
+            // Lazy layouts (lazy-row and lazy-columns ) are best
             // suited for dynamic data but row, columns are suitable for static data
             LazyRow {
                 items(cities.size) { index ->

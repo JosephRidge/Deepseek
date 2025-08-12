@@ -38,7 +38,7 @@ fun LandingPage(innerPadding:PaddingValues,navController: NavHostController) {
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(R.drawable.landing_page),
+            painter = painterResource(R.drawable.mountain),
             contentDescription = "Background image of person exploring the forest",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
