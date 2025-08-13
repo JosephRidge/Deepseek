@@ -106,8 +106,8 @@ fun HomePage() {
         // text 1
         Text(
             text = "Where do you want to go?",
-            fontSize = 24.sp,
-            lineHeight = 24.sp,
+            fontSize = 36.sp,
+            lineHeight = 40.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
         )
@@ -160,7 +160,7 @@ fun HomePage() {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .padding(vertical = 12.dp, horizontal = 16.dp)
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
             ) {
@@ -191,17 +191,16 @@ fun HomePage() {
                 )
 
             }
-            // city cards with ratings
             // Lazy layouts (lazy-row and lazy-columns ) are best
             // suited for dynamic data but row, columns are suitable for static data
             LazyRow {
                 items(cities.size) { index ->
                     CityWithRatingCard(
-                        name = cities[index].name,
-                        location = cities[index].location,
-                        rating = cities[index].rating,
-                        image = cities[index].image
-                    )
+                                                name = cities[index].name,
+                                                location = cities[index].location,
+                                                rating = cities[index].rating,
+                                                image = cities[index].image
+                                            )
 
                 }
             }

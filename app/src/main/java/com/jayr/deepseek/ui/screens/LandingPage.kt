@@ -59,7 +59,7 @@ fun LandingPage(innerPadding:PaddingValues,navController: NavHostController) {
                 Text(
                     text = "It's a Big World!",
                     fontSize = 20.sp,
-                    color = Color.DarkGray
+                    color = Color.White
                 )
 
                 Text(
@@ -93,7 +93,7 @@ fun LandingPage(innerPadding:PaddingValues,navController: NavHostController) {
                     Text(
                         text = "Get started",
                         fontSize = 18.sp,
-                        modifier = Modifier.padding(horizontal = 8.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
                     )
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
