@@ -68,6 +68,7 @@ fun LandingPage(innerPadding:PaddingValues,navController: NavHostController) {
                     lineHeight = 64.sp,
                     letterSpacing = 6.sp,
                     fontWeight = FontWeight.ExtraBold,
+                    color = Color.White
 
                     )
             }
